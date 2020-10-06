@@ -1,0 +1,6 @@
+fonts/
+**/__pycache__/
+**/.idea/
+venv/
+.vscode
+local.env

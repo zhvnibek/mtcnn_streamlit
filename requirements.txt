@@ -1,0 +1,3 @@
+PIL
+facenet_pytorch
+streamlit
