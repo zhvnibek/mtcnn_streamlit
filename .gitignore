@@ -1,4 +1,9 @@
-fonts/
+data/imgs/
+data/kpt/
+data/fonts/
+data/*.mp4
+data/design.drawio
+notebooks/
 **/__pycache__/
 **/.idea/
 venv/

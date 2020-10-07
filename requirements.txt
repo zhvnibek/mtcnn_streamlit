@@ -1,3 +1,8 @@
+torchvision
+torch
+numpy
+faiss
+minio
 PIL
 facenet_pytorch
 streamlit
