@@ -1,3 +1,6 @@
+scipy
+asyncpg
+aiohttp
 torchvision
 torch
 numpy

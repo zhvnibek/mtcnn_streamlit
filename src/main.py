@@ -49,8 +49,7 @@ def detect_faces(image, threshold: float, configs=Configs()):
                 face_emb = face_emb.detach().numpy()
                 index = get_index()
                 distances, indices = index.search(face_emb, 5)
-                for i in indices[0]:
-                    st.image(Image.open(paths[i]))
+                # query minio by ids (indices)
                 st.write('='*20)
 
         st.success('Done!')
@@ -75,6 +74,5 @@ th: float = st.sidebar.slider(
     0.5, 1.0, 0.8
 )
 
-paths = np.load('/home/zhanibek/Desktop/projects/mtcnn_streamlit/notebooks/paths.npy')
 if st.sidebar.button("Detect Faces"):
     detect_faces(image=main_img, threshold=th)
