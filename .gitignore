@@ -9,3 +9,4 @@ notebooks/
 venv/
 .vscode
 local.env
+*.index
