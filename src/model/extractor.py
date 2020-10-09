@@ -13,11 +13,11 @@ class Extractor:
             pretrained='vggface2'
         ).to('cpu')
         _ = self.encoder.eval()
-        self.threshold = 0.90
+        self.threshold = 0.90  # Todo: make it changeable
         self.pil2tensor = transforms.Compose([np.float32, transforms.ToTensor(), fixed_image_standardization])
 
-    def extract_faces_embeddings(self, img) -> np.ndarray:
-        """Extracts face encodings from a single image"""
+    def extract_face_embeddings(self, img):
+        """Extracts face embeddings from a single image"""
         boxes, probs = self.detector.detect(img=img, landmarks=False)
         if boxes is not None:
             for i, (box, prob) in enumerate(zip(boxes, probs)):

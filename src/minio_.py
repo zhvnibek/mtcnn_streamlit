@@ -49,10 +49,11 @@ class MinioClient:
             file_path=file_path
         )
 
-    def get_image(self, bucket_name: str, object_name: str) -> np.ndarray:
+    def get_image(self, bucket_name: str, object_name: str):
         try:
             response = self.minio_client.get_object(bucket_name=bucket_name, object_name=object_name)
-            return np.asarray(Image.open(BytesIO(response.read())))
+            # return np.asarray(Image.open(BytesIO(response.read())))
+            return Image.open(BytesIO(response.read()))
         except Exception as e:
             print(e)
         finally:
@@ -80,6 +81,6 @@ if __name__ == '__main__':
     #         fp = os.path.join(events, event, image)
     #         mc.put_image(bucket_name=kipyatcom, object_name=f'{event}/{image}', file_path=fp)
 
-    # arr = mc.get_image(bucket_name=kipyatcom, object_name='36948/KIPYATCOM_222.jpg')
-    # plt.imshow(arr)
-    # plt.show()
+    img = mc.get_image(bucket_name=kipyatcom, object_name='36948/KIPYATCOM_222.jpg')
+    plt.imshow(img)
+    plt.show()

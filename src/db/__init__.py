@@ -1,5 +1,5 @@
 import asyncpg
-from typing import List, NamedTuple
+from typing import List, NamedTuple, Tuple
 from asyncpg.connection import Connection
 
 
@@ -26,3 +26,18 @@ class Saver:
                 _id = await stmt.fetchval(face.bbox, face.prob, face.orig_img, face.col_id)
                 _ids.append(_id)
         return _ids
+
+    async def get_faces(self, ids: List[int]) -> List[Tuple[int, Face]]:
+        conn: Connection = await asyncpg.connect(dsn=self.dsn)
+        query = '''SELECT * FROM faces WHERE id IN''' + f'({",".join(map(str, ids))})'
+        async with conn.transaction():
+            records = await conn.fetch(query)
+            return [
+                (record['id'],
+                 Face(
+                    bbox=record['bbox'],
+                    prob=record['prob'],
+                    orig_img=record['orig_img'],
+                    col_id=record['col_id']
+                )) for record in records
+            ]

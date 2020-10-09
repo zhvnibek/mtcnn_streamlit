@@ -19,7 +19,7 @@ def index_event(folder: str):
         img = Image.open(fp=os.path.join(folder, file))
         faces = []
         embs = []
-        for (emb, box, prob) in ext.extract_faces_embeddings(img=img):
+        for (emb, box, prob) in ext.extract_face_embeddings(img=img):
             faces.append(Face(col_id=COL_ID, orig_img=object_name, bbox=box, prob=prob))
             embs.append(emb)
         face_ids = asyncio.run(saver.insert_faces(faces=faces))
