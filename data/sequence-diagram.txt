@@ -1,0 +1,27 @@
+title Ossmi Face Search App
+
+participant Client
+participant "Streamlit API" as API
+participant "FaceExtractor::MTCNN+ResNet" as FaceExtractor
+participant "Faiss Index" as Faiss
+
+
+participant PostgreSQL
+
+
+participant Minio
+
+Client->API:Upload an image
+API->FaceExtractor:Detect and extract faces
+FaceExtractor->API:Return face embeddings with \nmeta info (col_id, orig_img, bbox, prob)
+API->Faiss:Search similar face embeddings
+Faiss->API:Return top N face ids ranked by similarity
+API->PostgreSQL:Request meta info for similar faces
+PostgreSQL->API:Return face meta info
+API->Minio:Request original images with similar faces
+Minio->API:Return images
+API->Client:Display images ranked by similarity
+API->Minio:Save original image into storage
+API->PostgreSQL:Save face meta info
+PostgreSQL->API:Return inserted face ids
+API->Faiss:Add extracted faces with explicit ids

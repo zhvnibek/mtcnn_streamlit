@@ -17,7 +17,7 @@ class Extractor:
         self.pil2tensor = transforms.Compose([np.float32, transforms.ToTensor(), fixed_image_standardization])
 
     def extract_face_embeddings(self, img):
-        """Extracts face embeddings from a single image"""
+        """Extracts face embedding, bounding box, and probability for every detected face from the given image"""
         boxes, probs = self.detector.detect(img=img, landmarks=False)
         if boxes is not None:
             for i, (box, prob) in enumerate(zip(boxes, probs)):

@@ -5,7 +5,7 @@ import streamlit as st
 from torchvision import transforms
 from PIL import Image, ImageDraw, ImageFont
 from facenet_pytorch import fixed_image_standardization
-from conf import Configs, FACES_INDEX, main_img
+from conf import Configs, main_img
 from model.extractor import Extractor
 from model.indexer import Faiss
 from db import Saver
@@ -26,12 +26,7 @@ saver = Saver(dsn=local_dsn)
 mc = MinioClient()
 
 
-@st.cache(hash_funcs={faiss.swigfaiss.IndexIVFFlat: lambda _: 1})
-def get_index():
-    return faiss.read_index(FACES_INDEX)
-
-
-def detect_faces(image, configs=Configs()):
+def find_faces(image, configs=Configs()):
     with st.spinner('Detecting faces...'):
         draw = ImageDraw.Draw(im=image)
         font = ImageFont.truetype(font=configs.txt_font, size=configs.txt_size)
@@ -40,7 +35,8 @@ def detect_faces(image, configs=Configs()):
             draw.rectangle(box.tolist(), width=configs.rct_width)
             draw.text(xy=(box[0], box[3]), text=f'{int(prob*100)} %', font=font, fill=configs.txt_color)
             show.image(image, 'Uploaded Image', use_column_width=True)
-            # Todo: Save Face(bbox, prob, col_id, orig_img_id) into Minio, Postgres, Faiss
+            # Todo: Save Face(bbox, prob, col_id, orig_img_id) into Minio, Postgres, Faiss.
+            #  Consider caching and avoid duplicates
             embs.append(emb)
             # face = image.crop(box=box).resize(size=(160, 160), resample=2)
             # st.image(face)
@@ -83,5 +79,5 @@ th: float = st.sidebar.slider(
 )
 
 ext = get_face_extractor()
-if st.sidebar.button("Detect Faces"):
-    detect_faces(image=main_img)
+if st.sidebar.button("Find Faces"):
+    find_faces(image=main_img)
