@@ -1,9 +1,4 @@
-data/imgs/
-data/kpt/
-data/fonts/
-data/*.mp4
-data/*.txt
-data/design.drawio
+data/
 notebooks/
 **/__pycache__/
 **/.idea/

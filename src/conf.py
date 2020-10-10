@@ -2,8 +2,8 @@ import os
 from PIL import Image
 from typing import NamedTuple
 
-DEFAULT_IMG = os.environ.get('DEFAULT_IMG', '/home/zhanibek/Desktop/projects/mtcnn_streamlit/data/imgs/DEFAULT.jpg')
-DEFAULT_FONT = os.environ.get('DEFAULT_FONT', '/home/zhanibek/Desktop/projects/mtcnn_streamlit/data/fonts/Montserrat-Light.otf')
+DEFAULT_IMG = os.environ.get('DEFAULT_IMG', '/home/zhanibek/Desktop/projects/ossmi/data/imgs/DEFAULT.jpg')
+DEFAULT_FONT = os.environ.get('DEFAULT_FONT', '/home/zhanibek/Desktop/projects/ossmi/data/fonts/Montserrat-Light.otf')
 # Todo: Get font file via requests
 
 main_img = Image.open(DEFAULT_IMG)

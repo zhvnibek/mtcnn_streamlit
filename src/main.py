@@ -1,5 +1,5 @@
 import sys
-sys.path.append('/home/zhanibek/Desktop/projects/mtcnn_streamlit')
+sys.path.append('/home/zhanibek/Desktop/projects/ossmi')
 import asyncio
 import streamlit as st
 from PIL import Image, ImageDraw, ImageFont
