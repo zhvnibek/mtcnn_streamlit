@@ -4,6 +4,22 @@
 -
 ![](data/design.png)
 
+### Todo:
+* More data: collect more images from kipyatcom, ppz, vk
+* Consider using VGGFace2 for public
+* Fine tune the Inceptionesnet v1 on a new dataset
+* Analyze model performance, choose optimal distance metric (Euclidean and Cosine)
+* Tune and evaluate faiss indexing
+* Data Visualization. Analyze outliers
+* Data Augmentation
+
+
+* Publish on Heroku, AWS, GCP? 
+* Testing
+* Documentation
+* Write a blog on how to use the app?
+* Publish on ProductHunt?
+
 1. Install streamlit: `python3 -m pip install streamlit`
 
 2. Run the app: `streamlit run main.py`

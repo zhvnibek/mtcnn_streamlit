@@ -14,3 +14,5 @@ class Configs(NamedTuple):
     txt_size: int = 30
     txt_color: str = 'white'
     rct_width: int = 1
+    q_img_width: int = 500
+    s_img_width: int = 500
