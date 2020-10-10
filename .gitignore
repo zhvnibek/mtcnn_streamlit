@@ -10,5 +10,4 @@ notebooks/
 venv/
 .vscode
 local.env
-*.index
 mtcnn_streamlit.pem

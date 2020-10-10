@@ -4,7 +4,7 @@ from PIL import Image
 from src.services import Extractor, Faiss, PGClient, Face
 
 COL_ID = 1
-index_file = '/home/zhanibek/Desktop/projects/mtcnn_streamlit/src/faces.index'
+index_file = '/home/zhanibek/Desktop/projects/ossmi/src/faces.index'
 pg_client = PGClient()
 extractor = Extractor()
 

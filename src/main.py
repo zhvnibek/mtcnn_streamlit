@@ -66,7 +66,7 @@ th: float = st.sidebar.slider(
 )
 
 kipyatcom = 'kipyatcom'
-index_file = '/home/zhanibek/Desktop/projects/mtcnn_streamlit/src/faces.index'
+index_file = '/home/zhanibek/Desktop/projects/ossmi/src/faces.index'
 pg_client = PGClient()
 minio_client = MinioClient()
 extractor = get_face_extractor(threshold=th)

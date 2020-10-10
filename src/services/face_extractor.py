@@ -7,7 +7,7 @@ from facenet_pytorch import MTCNN, InceptionResnetV1, fixed_image_standardizatio
 class Extractor:
 
     def __init__(self, threshold: float = 0.9):
-        # Todo: Make MTCNN and ResNet configurable
+        # Todo: Make MTCNN and InceptionNet configurable
         self.detector = MTCNN(keep_all=True, min_face_size=40)
         self.encoder = InceptionResnetV1(
             classify=False,
