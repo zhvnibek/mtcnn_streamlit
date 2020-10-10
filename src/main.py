@@ -1,37 +1,25 @@
+import sys
+sys.path.append('/home/zhanibek/Desktop/projects/mtcnn_streamlit')
 import asyncio
-import faiss
-import numpy as np
 import streamlit as st
-from torchvision import transforms
 from PIL import Image, ImageDraw, ImageFont
-from facenet_pytorch import fixed_image_standardization
-from conf import Configs, main_img
-from model.extractor import Extractor
-from model.indexer import Faiss
-from db import Saver
-from minio_ import MinioClient
 
-pil2tensor = transforms.Compose([np.float32, transforms.ToTensor(), fixed_image_standardization])
+from src.conf import Configs, main_img
+from src.services import Extractor, Faiss, PGClient, MinioClient
 
 
 @st.cache
-def get_face_extractor():
-    return Extractor()
-
-kipyatcom = 'kipyatcom'
-index_file = '/home/zhanibek/Desktop/projects/mtcnn_streamlit/src/model/faces.index'
-local_dsn = 'postgresql://postgres:postgres@localhost:15432/ossmi'
-saver = Saver(dsn=local_dsn)
-
-mc = MinioClient()
+def get_face_extractor(threshold: float = 0.9):
+    return Extractor(threshold=threshold)
 
 
 def find_faces(image, configs=Configs()):
     with st.spinner('Detecting faces...'):
         draw = ImageDraw.Draw(im=image)
         font = ImageFont.truetype(font=configs.txt_font, size=configs.txt_size)
+
         embs = []
-        for (emb, box, prob) in ext.extract_face_embeddings(img=main_img):
+        for (emb, box, prob) in extractor.extract_face_embeddings(img=main_img):
             draw.rectangle(box.tolist(), width=configs.rct_width)
             draw.text(xy=(box[0], box[3]), text=f'{int(prob*100)} %', font=font, fill=configs.txt_color)
             show.image(image, 'Uploaded Image', use_column_width=True)
@@ -40,22 +28,21 @@ def find_faces(image, configs=Configs()):
             embs.append(emb)
             # face = image.crop(box=box).resize(size=(160, 160), resample=2)
             # st.image(face)
-        embs = np.array(embs)
 
         st.subheader("Similar images:")
         with Faiss(index_file=index_file) as fs:
-            dists_mt, ids_mt = fs.index.search(embs, 5)  # tune both count and distance threshold
-
-            for dists, ids in zip(dists_mt, ids_mt):
-                # Get images with faces similar to a the detected face
-                faces = asyncio.run(saver.get_faces(ids=ids))
+            for dists, ids in fs.query_faces(embs=embs, k=5):
+                # Get images with faces similar to a the detected faces
+                faces = asyncio.run(pg_client.get_faces(ids=ids))
                 for (face_id, face) in faces:
                     dist = dists[ids.tolist().index(face_id)]
-                    # st.write(face_id, face.orig_img, dist)
-                    sim_img = mc.get_image(bucket_name=kipyatcom, object_name=face.orig_img)
-                    st.image(sim_img, caption=f'Sim: {dist}', use_column_width=True)
-                st.write('=' * 30)
-
+                    # Get original images from Minio
+                    sim_img = minio_client.get_image(bucket_name=kipyatcom, object_name=face.orig_img)
+                    draw = ImageDraw.Draw(im=sim_img)
+                    draw.rectangle(face.bbox, width=configs.rct_width)
+                    draw.text(xy=(face.bbox[0], face.bbox[3]), text=f'{int(face.prob * 100)} %', font=font, fill=configs.txt_color)
+                    st.image(sim_img, caption=f'Sim: {dist}. Face ID: {face_id}. Image from collection #{face.col_id}. Image: {face.orig_img}', use_column_width=True)
+                st.write('-' * 60)
         st.success('Done!')
 
 
@@ -78,6 +65,12 @@ th: float = st.sidebar.slider(
     0.5, 1.0, 0.8
 )
 
-ext = get_face_extractor()
+kipyatcom = 'kipyatcom'
+index_file = '/home/zhanibek/Desktop/projects/mtcnn_streamlit/src/faces.index'
+pg_client = PGClient()
+minio_client = MinioClient()
+extractor = get_face_extractor(threshold=th)
+
+
 if st.sidebar.button("Find Faces"):
     find_faces(image=main_img)

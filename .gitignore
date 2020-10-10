@@ -2,6 +2,7 @@ data/imgs/
 data/kpt/
 data/fonts/
 data/*.mp4
+data/*.txt
 data/design.drawio
 notebooks/
 **/__pycache__/
@@ -10,3 +11,4 @@ venv/
 .vscode
 local.env
 *.index
+mtcnn_streamlit.pem

@@ -1,4 +1,3 @@
-import numpy as np
 from PIL import Image
 from io import BytesIO
 from minio import Minio
@@ -70,6 +69,7 @@ class MinioClient:
 
 if __name__ == '__main__':
     import os
+    import np
     import matplotlib.pyplot as plt
 
     mc = MinioClient()

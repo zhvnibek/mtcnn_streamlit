@@ -10,9 +10,12 @@ class Face(NamedTuple):
     col_id: int
 
 
-class Saver:
+local_dsn = 'postgresql://postgres:postgres@localhost:15432/ossmi'
 
-    def __init__(self, dsn: str):
+
+class PGClient:
+
+    def __init__(self, dsn: str = local_dsn):
         self.dsn = dsn
 
     async def insert_faces(self, faces: List[Face]) -> List[int]:

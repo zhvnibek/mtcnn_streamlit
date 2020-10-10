@@ -6,14 +6,15 @@ from facenet_pytorch import MTCNN, InceptionResnetV1, fixed_image_standardizatio
 
 class Extractor:
 
-    def __init__(self):
+    def __init__(self, threshold: float = 0.9):
+        # Todo: Make MTCNN and ResNet configurable
         self.detector = MTCNN(keep_all=True, min_face_size=40)
         self.encoder = InceptionResnetV1(
             classify=False,
             pretrained='vggface2'
         ).to('cpu')
         _ = self.encoder.eval()
-        self.threshold = 0.90  # Todo: make it changeable
+        self.threshold = threshold
         self.pil2tensor = transforms.Compose([np.float32, transforms.ToTensor(), fixed_image_standardization])
 
     def extract_face_embeddings(self, img):
