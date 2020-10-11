@@ -1,5 +1,7 @@
 ## A Simple MTCNN Face Detection App
 
+![demo](data/ossmi-demo.gif)
+
 ![](data/sequence-diagram.png)
 -
 ![](data/design.png)
