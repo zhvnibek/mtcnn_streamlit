@@ -8,7 +8,7 @@ _Google Photos на минималках?_
 - Annotating/naming persons (face_ids)
 
 
-![demo](data/ossmi-demo.gif)
+![demo](data/ossmi-demo-2.gif)
 
 #### Sequence Diagram
 ![](data/sequence-diagram.png)
@@ -17,7 +17,8 @@ _Google Photos на минималках?_
 ![](data/design.png)
 
 ##### Todo:
-* Automate new collection and index creation
+* Dynamically update indexes with new images
+* Automate the creation of new collections and indexes
 * More data: collect more images from kipyatcom, ppz, vk
 * Consider using VGGFace2 for demo?
 * Fine tune the Inceptionesnet v1 on a new dataset
