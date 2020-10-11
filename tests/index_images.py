@@ -3,16 +3,15 @@ import asyncio
 from PIL import Image
 from src.services import Extractor, Faiss, PGClient, Face
 
-COL_ID = 1
-index_file = '/home/zhanibek/Desktop/projects/ossmi/src/faces.index'
+COL_ID = 2
+index_file = '/home/zhanibek/Desktop/projects/ossmi/src/faces-personal.index'
 pg_client = PGClient()
 extractor = Extractor()
 
 
-def index_event(folder: str):
-    print(folder)
+def index_folder(folder: str):
     for file in os.listdir(folder):
-        object_name = folder.split('/')[-1] + '/' + file
+        object_name = file
         img = Image.open(fp=os.path.join(folder, file))
         faces = []
         embs = []
@@ -25,9 +24,5 @@ def index_event(folder: str):
                 fs.add_faces(embs=embs, ids=face_ids)
 
 if __name__ == '__main__':
-    events = '../data/imgs/events/'
-    for event_dir in os.listdir(events):
-        if event_dir.split('/')[-1] in ('37100',):
-            continue
-        event_dir = os.path.join(events, event_dir)
-        index_event(folder=event_dir)
+    personal = '/home/zhanibek/Desktop/projects/ossmi/data/imgs/personal'
+    index_folder(folder=personal)

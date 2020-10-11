@@ -40,7 +40,7 @@ def find_faces(image, configs=Configs()):
                 for (face_id, face) in faces:
                     dist = dists[ids.tolist().index(face_id)]
                     # Get original images from Minio
-                    sim_img = minio_client.get_image(bucket_name=kipyatcom, object_name=face.orig_img)
+                    sim_img = minio_client.get_image(bucket_name=bucket, object_name=face.orig_img)
                     draw = ImageDraw.Draw(im=sim_img)
                     draw.rectangle(face.bbox, width=configs.rct_width)
                     draw.text(xy=(face.bbox[0], face.bbox[3]), text=f'{int(face.prob * 100)} %', font=font, fill=configs.txt_color)
@@ -71,8 +71,11 @@ else:
 #     0.5, 1.0, 0.8
 # )
 
-kipyatcom = 'kipyatcom'
-index_file = '/home/zhanibek/Desktop/projects/ossmi/src/faces.index'
+# bucket = 'kipyatcom'
+# index_file = '/home/zhanibek/Desktop/projects/ossmi/src/faces.index'
+index_file = '/home/zhanibek/Desktop/projects/ossmi/src/faces-personal.index'
+bucket = 'personal'
+
 pg_client = PGClient()
 minio_client = MinioClient()
 extractor = get_face_extractor(threshold=0.95)

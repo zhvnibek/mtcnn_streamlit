@@ -1,14 +1,25 @@
-## A Simple MTCNN Face Detection App
+## Ossmi. An Interactive Face Search App
+
+ Standalone (web or mobile) personal photo gallery with face recognition. 
+_Google Photos на минималках?_
+
+- Dynamically indexing faces from newly uploaded photos
+- Searching photos of a person within a gallery by leveraging indexed faces
+- Annotating/naming persons (face_ids)
+
 
 ![demo](data/ossmi-demo.gif)
 
+#### Sequence Diagram
 ![](data/sequence-diagram.png)
--
+
+#### Face Indexing Pipeline
 ![](data/design.png)
 
-### Todo:
+##### Todo:
+* Automate new collection and index creation
 * More data: collect more images from kipyatcom, ppz, vk
-* Consider using VGGFace2 for public
+* Consider using VGGFace2 for demo?
 * Fine tune the Inceptionesnet v1 on a new dataset
 * Analyze model performance, choose optimal distance metric (Euclidean and Cosine)
 * Tune and evaluate faiss indexing
@@ -22,6 +33,8 @@
 * Write a blog on how to use the app?
 * Publish on ProductHunt?
 
+**Usage**
+ 
 1. Install streamlit: `python3 -m pip install streamlit`
 
 2. Run the app: `streamlit run main.py`
