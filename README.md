@@ -10,10 +10,7 @@ _Google Photos на минималках?_
 
 ![demo](data/ossmi-demo-2.gif)
 
-#### Sequence Diagram
-![](data/sequence-diagram.png)
-
-#### Face Indexing Pipeline
+#### System Design
 ![](data/design.png)
 
 ##### Todo:
@@ -33,12 +30,14 @@ _Google Photos на минималках?_
 * Documentation
 * Write a blog on how to use the app?
 * Publish on ProductHunt?
+#### Bugs
+- Faces on a rotated or tilted images are not detected
 
 **Usage**
  
 1. Install streamlit: `python3 -m pip install streamlit`
 
-2. Run the app: `streamlit run main.py`
+2. Run the app: `streamlit run demo/demo.py`
 
 
 Minio
@@ -52,6 +51,9 @@ PostgreSQL
 ```
 docker run --name ossmi -e POSTGRES_PASSWORD=postgres -d -p 15432:5432 -v pgdata:/var/lib/postgresql/data postgres
 ```
+
+[Milvus Docker Reference](https://milvus.io/docs/v0.10.3/milvus_docker-cpu.md)
+
 Connecting to aws ec2 instance
 ```
 ssh -i mtcnn_streamlit.pem ubuntu@ec2-35-155-200-213.us-west-2.compute.amazonaws.com
